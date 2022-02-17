@@ -2,6 +2,5 @@
   "name": "discord-temp-channels",
   "language": "typescript",
   "manager": "yarn",
-  "token": "s",
   "prefix": "%"
 }
