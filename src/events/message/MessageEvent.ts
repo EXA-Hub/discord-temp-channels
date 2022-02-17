@@ -1,10 +1,10 @@
-import BaseEvent from '../../utils/structures/BaseEvent';
-import { Message } from 'discord.js';
-import DiscordClient from '../../client/client';
+import BaseEvent from "../../utils/structures/BaseEvent";
+import { Message } from "discord.js";
+import DiscordClient from "../../client/client";
 
 export default class MessageEvent extends BaseEvent {
   constructor() {
-    super('message');
+    super("messageCreate");
   }
 
   async run(client: DiscordClient, message: Message) {
@@ -15,9 +15,7 @@ export default class MessageEvent extends BaseEvent {
         .trim()
         .split(/\s+/);
       const command = client.commands.get(cmdName);
-      if (command) {
-        command.run(client, message, cmdArgs);
-      }
+      if (command) command.run(client, message, cmdArgs);
     }
   }
 }
