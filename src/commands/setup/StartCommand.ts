@@ -11,21 +11,16 @@ export default class StartCommand extends BaseCommand {
   }
 
   async run(client: DiscordClient, _message: Message, _args: Array<string>) {
+    _message.reply({ content: "جار بدأ التشغيل" });
     const tempChannels = new TempChannels(client);
-    client.on("ready", () => {
-      if (!db.get("temp-channels")) db.set("temp-channels", []);
-      db.get("temp-channels").forEach(
-        (channelData: {
-          channelID: string;
-          options: ParentChannelOptions | undefined;
-        }) =>
-          tempChannels.registerChannel(
-            channelData.channelID,
-            channelData.options
-          )
-      );
-    });
-
+    if (!db.get("temp-channels")) db.set("temp-channels", []);
+    db.get("temp-channels").forEach(
+      (channelData: {
+        channelID: string;
+        options: ParentChannelOptions | undefined;
+      }) =>
+        tempChannels.registerChannel(channelData.channelID, channelData.options)
+    );
     client.on("messageCreate", (message: Message) => {
       if (message.content.startsWith(client.prefix + "set")) {
         if (
@@ -33,9 +28,7 @@ export default class StartCommand extends BaseCommand {
             (channel) => channel.channelID === message.member?.voice.channelId
           )
         )
-          message.channel.send(
-            "Your voice channel is already a main voice channel"
-          );
+          message.channel.send("لديك واحدة بالفعل");
         const options = {
           childAutoDeleteIfEmpty: true,
           childAutoDeleteIfOwnerLeaves: true,
