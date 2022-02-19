@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "discord-modals": "^1.1.7",
     "discord-temp-channels": "^3.0.2",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",

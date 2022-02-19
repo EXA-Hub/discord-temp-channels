@@ -1,9 +1,9 @@
 import env from "dotenv";
 env.config();
 import { registerCommands, registerEvents } from "./utils/registry";
-import config from "../slappey.json";
 import DiscordClient from "./client/client";
 import { Intents } from "discord.js";
+import config from "../slappey.json";
 const client = new DiscordClient({
   intents: [
     Intents.FLAGS.GUILDS,
@@ -11,6 +11,9 @@ const client = new DiscordClient({
     Intents.FLAGS.GUILD_VOICE_STATES,
   ],
 });
+
+const discordModals = require("discord-modals");
+discordModals(client);
 
 (async () => {
   client.prefix = config.prefix || client.prefix;

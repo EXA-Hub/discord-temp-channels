@@ -14,6 +14,16 @@ export default class ReadyEvent extends BaseEvent {
   async run(client: DiscordClient) {
     console.log(client.user?.tag + " has logged in.");
 
+    client.on("modalSubmit", (modal) => {
+      if (modal.customId === "modal-customid") {
+        const firstResponse = modal.getTextInputValue("textinput-customid");
+        modal.reply(
+          "Congrats! Powered by discord-modals." +
+            `\`\`\`${firstResponse}\`\`\``
+        );
+      }
+    });
+
     const tempChannels = client.temps;
     if (!db.get("temp-channels")) db.set("temp-channels", []);
     db.get("temp-channels").forEach(
