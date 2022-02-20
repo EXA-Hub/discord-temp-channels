@@ -12,14 +12,17 @@ export default class InteractionCreateEvent extends BaseEvent {
     const channel = client.temps.channels.find(
       (channel) => channel.channelID === interaction.customId
     );
-    const { Modal, TextInputComponent, showModal } = require("discord-modals");
-    const optionsKeys = Object.keys(channel?.options!),
-      optionsValues = Object.values(channel?.options!);
-    const modal = new Modal()
-      .setCustomId(channel?.channelID)
-      .setTitle(interaction.component.label)
-      .addComponents(
-        optionsKeys.map((key, index) => {
+    if (!channel) {
+      interaction.reply({ content: "لا يوجد غرفة بهذا الإسم" });
+      return;
+    } else {
+      const options = channel?.options!;
+      const optionsKeys = Object.keys(options),
+        optionsValues = Object.values(options),
+        { Modal, TextInputComponent, showModal } = require("discord-modals");
+      const components = optionsKeys
+        .map((key, index) => {
+          if (key === "childFormat") return "childFormat";
           const q = new TextInputComponent()
             .setValue(optionsValues[index].toString())
             .setStyle("SHORT")
@@ -27,10 +30,15 @@ export default class InteractionCreateEvent extends BaseEvent {
             .setLabel(key);
           return q;
         })
-      );
-    showModal(modal, {
-      client: client,
-      interaction: interaction,
-    });
+        .filter((key) => key !== "childFormat");
+      const modal = new Modal()
+        .setCustomId(channel?.channelID)
+        .setTitle(interaction.component.label)
+        .addComponents(components);
+      showModal(modal, {
+        client: client,
+        interaction: interaction,
+      });
+    }
   }
 }

@@ -41,6 +41,8 @@ export default class GetCommand extends BaseCommand {
         false
       );
     });
-    message.reply({ embeds: [embed], components: [row] });
+    if (row.components && row.components.length > 0)
+      message.reply({ embeds: [embed], components: [row] });
+    else message.reply({ embeds: [embed.setTitle("لا توجد غرف")] });
   }
 }
