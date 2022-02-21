@@ -9,5 +9,5 @@ yarn install && yarn start
 ## Repl.it
 
 ```shell
-npm i && npx node@latest ./build/index.js
+npx npm@latest install && npx node@latest ./build/index.js
 ```
